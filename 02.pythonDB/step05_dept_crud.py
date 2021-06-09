@@ -19,8 +19,12 @@ def dept01_create():
 
             try:    
                 cur.execute("create table dept01 as select * from dept")
-                cur.execute("alter table dept01 add constraint pk_dept01_deptno primary key(deptno)")   # deptno를 pk로 설정하여 중복, null 방지
-                conn.commit()    # commit() 을 하지 않으면 execute()를 아무리해도 결과가 DB에 반영 안됨
+                try:
+                    cur.execute("alter table dept01 add constraint pk_dept01_deptno primary key(deptno)")   # deptno를 pk로 설정하여 중복, null 방지
+                    conn.commit()     # commit()하지 않으면 execute()를 아무리해도 결과가 DB에 반영 안됨
+                except Exception as e:     # 에러 종류를 포괄적으로 받는 Exception 사용해 출력
+                    print(e)      
+                     
             except Exception as e:     # 에러 종류를 포괄적으로 받는 Exception 사용해 출력
                 print(e)
 
